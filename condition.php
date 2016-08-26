@@ -6,10 +6,14 @@ if ($a == $b) {
     echo ' values are equal ';
 }
 elseif ($a < $b)
-{ echo "$a is less than $b";}
-elseif ($a > $b)
-{ echo "$a is greater than $b";}
-else {
-  echo 'values are NOT equal';
+  { echo "$a is less than $b";}
+else
+  { echo "$a is greater than $b";}
+
+$num = 20;
+if ($num == 10 || is_string($num)){
+  echo "'num' is 10 or a string";
+}else {
+  echo " 'num' is Not 10 or a string";
 }
 ?>

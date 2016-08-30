@@ -3,8 +3,9 @@ $learn = array('Conditionals', 'Arrays', 'Loops');
 
 array_push($learn, 'Functions', 'Forms', 'Objects');
 array_unshift($learn, 'CSS');
-
+asort($learn);
 var_dump($learn);
+sort($learn);
 echo implode("\n", $learn);
 
 //Removing

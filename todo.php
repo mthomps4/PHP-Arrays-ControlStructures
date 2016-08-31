@@ -1,25 +1,67 @@
 <?php
-$list[] = array(
-  'title' => 'Laundry',
-  'priority' => 2,
-  'due' => '',
-  'complete' => true,
-);
+  include 'list.php';
+  $status = 'all';
+  $field = 'priority';
+  $action = 'week';
+  $order = array();
 
-$list[] = [
-  'title' => 'Clean out refrigerator',
-  'priority' => 3,
-  'due' => '07/30/2016',
-  'complete' => false,
-];//replaced array() with []
+if($status == 'all' ){
+  $order = array_keys($list);
+}else{
+  foreach($list as $key => $item){
+    if ($item['complete'] == $status) {
+      $order[] = $key;
+    }
+  }
+}
 
-//$list = array($task1, $task2); subbed for $list[]
 
-//var_dump($list);
+switch($action) {
+  case 'sort':
+      if($field) {//if field is set
+        $sort = array();
+        foreach ($order as $id){
+          $sort[$id] = $list[$id][$field];
+        }
+        asort($sort); // sorts by value keeps key association the same
+        $order = array_keys($sort); //updates array keys from new sort
+      }break;
 
-echo $list[0]['title'];
+    case 'week':
+    foreach ($order as $key => $value){
+      if (strtotime($list[$value]['due']) > strtotime("25 July 2016") || !$list[$value]['due']){
+        unset($order[$key]);
+      }
+    }break;
+}
 
-//PHP SORT ARRAY OPTIONS 
+
+
+echo '<table>';
+echo '<tr>';
+echo '<th> Title </th>';
+echo '<th> Priority</th>';
+echo '<th> Due Date</th>';
+echo '<th> Complete</th>';
+echo '</tr>';
+
+//Shows Items only completed
+  foreach ($order as $id){ //array used each item used to var item -- creates assosicative array
+    echo '<tr>';
+    echo '<td>' . $list[$id]['title'] . "</td>\n";
+    echo '<td>' . $list[$id]['priority'] . "</td>\n";
+    echo '<td>' . $list[$id]['due'] . "</td>\n";
+    echo '<td>';
+    if ($list[$id]['complete']) {echo "yes";} else{echo "no";}
+    echo "</td>\n";
+    echo '</tr>';
+  }
+echo '</table>';
+
+
+
+
+//PHP SORT ARRAY OPTIONS
 
 // Function name	Sorts by	Maintains key association	Order of sort	Related functions
 // array_multisort()	value	associative yes, numeric no	first array or sort options	array_walk()
